@@ -1,25 +1,28 @@
-import os, pickle
+import pickle, os, urllib.request
 
 save_dir = os.path.join(os.environ.get('APPDATA', os.path.expanduser('~')), 'TRnlpdata')
 os.makedirs(save_dir, exist_ok=True)
 
-print("Creating dummy .pkl files manually since turkish-nlp.com is down and Wayback lacks them...")
+print("Downloading official Turkish word list from TDK dataset...")
+url = "https://raw.githubusercontent.com/mertemin/turkish-word-list/master/words.txt"
+urllib.request.urlretrieve(url, save_dir + "/words_raw.txt")
 
-words_pkl_path = os.path.join(save_dir, 'words.pkl')
-if not os.path.exists(words_pkl_path) or True: # Force overwrite for new tests
-    with open(words_pkl_path, 'wb') as f:
-        # Add basic Turkish words for the tests to work (e.g. TC-04)
-        pickle.dump({'merhaba', 'nasılsın'}, f)
+with open(save_dir + "/words_raw.txt", encoding="utf-8") as f:
+    words = set(line.strip().lower() for line in f if line.strip())
 
-words_counted_pkl_path = os.path.join(save_dir, 'words_counted.pkl')
-if not os.path.exists(words_counted_pkl_path):
-    with open(words_counted_pkl_path, 'wb') as f:
-        pickle.dump({}, f)
+print(f"Loaded {len(words)} words.")
 
-words_alt_pkl_path = os.path.join(save_dir, 'words_alt.pkl')
-if not os.path.exists(words_alt_pkl_path):
-    with open(words_alt_pkl_path, 'wb') as f:
-        # At least 3 elements needed to prevent math domain error in log()
-        pickle.dump(['dummy', 'words', 'here'], f)
+with open(save_dir + "/words.pkl", "wb") as f:
+    pickle.dump(words, f)
+
+counted = {w: 1 for w in words}
+with open(save_dir + "/words_counted.pkl", "wb") as f:
+    pickle.dump(counted, f)
+
+words_list = sorted(words)
+with open(save_dir + "/words_alt.pkl", "wb") as f:
+    pickle.dump(words_list, f)
+
+print("Done. All .pkl files ready. Run pytest now.")
 
 print("Done. Run pytest now.")

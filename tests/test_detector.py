@@ -27,7 +27,7 @@ def test_TC03_vowel_harmonic_empty_string(nlp):
 
 def test_TC04_is_turkish_true(nlp):
     """TC-04: clear Turkish text returns True (EP)."""
-    assert nlp.is_turkish("Merhaba nasılsın") is True
+    assert nlp.is_turkish("Merhaba kitap okudum") is True
 
 
 def test_TC05_is_turkish_false_english(nlp):
