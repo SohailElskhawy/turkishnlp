@@ -19,6 +19,16 @@ See [Change Log](Changelog.md)
 
 Very early version of the TurkishNLP. For now it has basically 5 main functions; Detecting Turkish Language, correcting text without whitespace, correcting typos, vowel harmonic detection, Turkish origin detection and syllabication in Turkish words.
 
+## Running Tests
+
+```
+# Prerequisites — run once before testing:
+py run_once_setup.py
+
+# Then run tests normally:
+py -m pytest tests/ -v
+```
+
 ## Dataset
 Dataset was created by parsing and filtering a Turkish wikipedia dump. 
 
