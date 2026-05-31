@@ -27,6 +27,9 @@ py run_once_setup.py
 
 # Then run tests normally:
 py -m pytest tests/ -v
+
+# Coverage report:
+pytest tests/ --cov=turkishnlp --cov-report=term-missing
 ```
 
 ## Dataset
